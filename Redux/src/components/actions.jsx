@@ -1,12 +1,11 @@
-// src/actions.js
 export const like = () => {
-    return {
-        type: 'LIKE'
-    };
+  return {
+    type: 'LIKE'
+  };
 };
 
 export const unlike = () => {
-    return {
-        type: 'UNLIKE'
-    };
+  return {
+    type: 'UNLIKE'
+  };
 };
