@@ -1,20 +1,28 @@
-// src/components/LikeCounter.jsx
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { like, unlike } from './actions';
+import React, { useState, useEffect } from 'react';
+import { createStore } from 'redux';
+import reducer from './reducer'; 
+import { like, unlike } from './actions'; 
+
+const store = createStore(reducer);
 
 const LikeCounter = () => {
-    const likeCount = useSelector(state => state.likeCount);
-    const dispatch = useDispatch();
+  const [likeCount, setLikeCount] = useState(store.getState().likeCount);
 
-    return (
-        <div>
-            <h1>Likes: {likeCount}</h1>
-            <button onClick={() => dispatch(like())}>Like</button>
-            <button onClick={() => dispatch(unlike())}>Unlike</button>
-        </div>
-    );
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => setLikeCount(store.getState().likeCount));
+    return () => unsubscribe();
+  }, []);
+
+  const handleIncrement = () => store.dispatch(like());
+  const handleDecrement = () => store.dispatch(unlike());
+
+  return (
+    <div>
+      <h2>{likeCount}</h2>
+      <button onClick={handleIncrement}>Like</button>
+      <button onClick={handleDecrement}>Unlike</button>
+    </div>
+  );
 };
 
 export default LikeCounter;
